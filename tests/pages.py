@@ -1,7 +1,7 @@
 __author__ = 'anis'
 
 import urlparse
-from components import AuthForm, TopMenu, Slider, AdvertisedObject, Advert, FamilyIncome, ProfessionalArea, Creating
+from components import *
 
 
 class Page(object):
@@ -54,3 +54,11 @@ class CreatePage(Page):
     @property
     def creating(self):
         return Creating(self.driver)
+
+
+class CompaniesPage(Page):
+    PATH = '/ads/campaigns/'
+
+    @property
+    def new_campaign(self):
+        return NewCompany(self.driver)

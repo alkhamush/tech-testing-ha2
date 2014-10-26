@@ -100,10 +100,6 @@ class Advert(Component):
     URL = ".banner-form__input[data-name='url']"
     IMAGE = ".banner-form__input[data-name='image']"
 
-    VALUE_TITLE = "/html/body/div[1]/div[5]/div/div[2]/div/div[1]/div[3]/div/div[1]/div/div/div[1]/span/span[1]"
-    # VALUE_TEXT
-    # VALUE_URL
-
     def set_title(self, title_name):
         title_field = find_element(self.driver, self.TITLE)
         title_field.send_keys(title_name)
@@ -124,7 +120,6 @@ class Advert(Component):
         return WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.VALUE_TITLE).text
         )
-
 
     def get_text(self):
         text_field = find_element(self.driver, self.TEXT)
@@ -177,6 +172,7 @@ class ProfessionalArea(Component):
     PROFESSIONAL_AREA = "[data-node-id='Профессиональнаяобласть']"
     ALL_PROFESSIONAL_AREA = "//*[@id='interests237']/input"
     BANKS = "//*[@id='interests241']/input"
+    MANAGMENT = "//*[@id='interests244']/input"
 
     def click_on_interests(self):
         interests = find_element(self.driver, self.INTERESTS)
@@ -194,6 +190,10 @@ class ProfessionalArea(Component):
         banks = find_element_by_xpath(self.driver, self.BANKS)
         banks.click()
 
+    def click_on_managment(self):
+        managmen = find_element_by_xpath(self.driver, self.MANAGMENT)
+        managmen.click()
+
     def get_professional_area(self):
         professional_area = find_element(self.driver, self.PROFESSIONAL_AREA)
         return professional_area.is_selected()
@@ -206,6 +206,10 @@ class ProfessionalArea(Component):
         banks = find_element_by_xpath(self.driver, self.BANKS)
         return banks.is_selected()
 
+    def get_all_managment(self):
+        managment = find_element_by_xpath(self.driver, self.MANAGMENT)
+        return managment.is_selected()
+
 
 class Creating(Component):
 
@@ -214,6 +218,13 @@ class Creating(Component):
     def create(self):
         creating_button = find_element(self.driver, self.CREATING_BUTTON)
         creating_button.click()
+
+class NewCompany(Component):
+    REDACT = '.control__link_edit'
+
+    def do_redact(self):
+        redact = find_element(self.driver, self.REDACT)
+        redact.click()
 
 
 

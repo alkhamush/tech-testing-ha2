@@ -3,7 +3,7 @@ __author__ = 'anis'
 import os
 import unittest
 from selenium.webdriver import DesiredCapabilities, Remote
-from pages import AuthPage, CreatePage
+from pages import *
 
 
 class Test(unittest.TestCase):
@@ -55,6 +55,10 @@ class Test(unittest.TestCase):
 
         self.assertEqual(USERNAME, email)
 
+        companies_page = CompaniesPage(self.driver)
+        companies_page.new_campaign.do_redact()
+
+
     def test_family_income1(self):
         USERNAME = 'tech-testing-ha2-33@bk.ru'
         PASSWORD = os.environ['TTHA2PASSWORD']
@@ -86,11 +90,15 @@ class Test(unittest.TestCase):
         create_page.family_income.click_on_medium()
         create_page.family_income.click_on_low()
 
+        create_page.creating.create()
+
+        companies_page = CompaniesPage(self.driver)
+        companies_page.new_campaign.do_redact()
+
+        create_page.family_income.click_on_family_income()
         assert create_page.family_income.get_high()
         assert create_page.family_income.get_medium()
         assert create_page.family_income.get_low()
-
-        create_page.creating.create()
 
     def test_family_income2(self):
         USERNAME = 'tech-testing-ha2-33@bk.ru'
@@ -122,11 +130,15 @@ class Test(unittest.TestCase):
         create_page.family_income.click_on_medium()
         create_page.family_income.click_on_low()
 
+        create_page.creating.create()
+
+        companies_page = CompaniesPage(self.driver)
+        companies_page.new_campaign.do_redact()
+
+        create_page.family_income.click_on_family_income()
         assert not create_page.family_income.get_high()
         assert create_page.family_income.get_medium()
         assert create_page.family_income.get_low()
-
-        create_page.creating.create()
 
     def test_professional_area1(self):
         USERNAME = 'tech-testing-ha2-33@bk.ru'
@@ -159,9 +171,17 @@ class Test(unittest.TestCase):
         create_page.family_income.click_on_medium()
         create_page.family_income.click_on_low()
 
-        assert create_page.professional_area.get_all_banks()
-
         create_page.creating.create()
+
+        companies_page = CompaniesPage(self.driver)
+        companies_page.new_campaign.do_redact()
+
+        create_page.professional_area.click_on_interests()
+        create_page.professional_area.click_on_professional_area()
+        assert create_page.professional_area.get_all_banks()
+        assert not create_page.professional_area.get_all_managment()
+        assert not create_page.professional_area.get_all_professional_area()
+
 
     def test_professional_area2(self):
         USERNAME = 'tech-testing-ha2-33@bk.ru'
@@ -194,8 +214,57 @@ class Test(unittest.TestCase):
         create_page.family_income.click_on_medium()
         create_page.family_income.click_on_low()
 
+        create_page.creating.create()
+
+        companies_page = CompaniesPage(self.driver)
+        companies_page.new_campaign.do_redact()
+
+        create_page.professional_area.click_on_interests()
+        create_page.professional_area.click_on_professional_area()
+
         assert create_page.professional_area.get_all_professional_area()
+        assert create_page.professional_area.get_all_managment()
         assert create_page.professional_area.get_all_banks()
+
+
+    def test_professional_area1(self):
+        USERNAME = 'tech-testing-ha2-33@bk.ru'
+        PASSWORD = os.environ['TTHA2PASSWORD']
+        DOMAIN = '@bk.ru'
+
+        auth_page = AuthPage(self.driver)
+        auth_page.open()
+
+        auth_form = auth_page.form
+        auth_form.set_domain(DOMAIN)
+        auth_form.set_login(USERNAME)
+        auth_form.set_password(PASSWORD)
+        auth_form.submit()
+
+        create_page = CreatePage(self.driver)
+        create_page.open()
+
+        create_page.advert.set_title('test_headline')
+        create_page.advert.set_text('test_text')
+        create_page.advert.set_url('http://www.vlad.aif.ru/culture/details/1367981')
+        create_page.advert.set_image("img.jpg")
+
+        create_page.professional_area.click_on_interests()
+        create_page.professional_area.click_on_professional_area()
+        create_page.professional_area.click_on_managment()
+
+        create_page.family_income.click_on_family_income()
+        create_page.family_income.click_on_high()
+        create_page.family_income.click_on_medium()
+        create_page.family_income.click_on_low()
 
         create_page.creating.create()
 
+        companies_page = CompaniesPage(self.driver)
+        companies_page.new_campaign.do_redact()
+
+        create_page.professional_area.click_on_interests()
+        create_page.professional_area.click_on_professional_area()
+        assert not create_page.professional_area.get_all_banks()
+        assert create_page.professional_area.get_all_managment()
+        assert not create_page.professional_area.get_all_professional_area()
